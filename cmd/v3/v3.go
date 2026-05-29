@@ -15,26 +15,6 @@ const (
 	DEFAULT_MAX_REQUEST_INTERVAL = 120
 )
 
-type Target struct {
-	Address string // 1.1.1.1 | google.com
-	Config  *TargetConfig
-	Pings   []PingResult
-}
-
-type PingResult struct {
-	Method     string
-	Error      error
-	Latency    time.Duration
-	StatusCode int
-	Success    bool
-}
-
-type TargetConfig struct {
-	Methods  []string // OPTIONS | HEAD | GET
-	Interval time.Duration
-	// todo: interval grow/shrink func?
-}
-
 var targets = []Target{
 	{Address: "cp.cloudflare.com"},
 	{Address: "google.com"},
