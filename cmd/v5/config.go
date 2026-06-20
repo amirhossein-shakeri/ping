@@ -11,28 +11,28 @@ import (
 )
 
 type Config struct {
-	Interval       time.Duration
-	Timeout        time.Duration
-	BufferSize     int
-	Refresh        time.Duration
-	TopNRows       int
-	NoColor        bool
-	LogFile        string
-	TargetsFile    string
-	Methods        []Method
-	Schemes        []Scheme
-	DefaultPath    string
-	InsecureTLS    bool
-	UserAgent      string
-	MaxBodyBytes   int64
-	ShowHelp       bool
+	Interval     time.Duration
+	Timeout      time.Duration
+	BufferSize   int
+	Refresh      time.Duration
+	TopNRows     int
+	NoColor      bool
+	LogFile      string
+	TargetsFile  string
+	Methods      []Method
+	Schemes      []Scheme
+	DefaultPath  string
+	InsecureTLS  bool
+	UserAgent    string
+	MaxBodyBytes int64
+	ShowHelp     bool
 }
 
 func defaultConfig() Config {
 	return Config{
 		Interval:     2 * time.Second,
 		Timeout:      5 * time.Second,
-		BufferSize:   14,
+		BufferSize:   8,
 		Refresh:      250 * time.Millisecond,
 		TopNRows:     0,
 		NoColor:      false,
@@ -153,21 +153,29 @@ func normalizeTarget(target *Target, cfg Config) {
 
 func defaultTargets(cfg Config) []Target {
 	targets := []Target{
-		{Title: "Cloudflare", Address: "cloudflare.com"},
-		{Title: "Google", Address: "google.com"},
-		{Title: "GitHub", Address: "github.com"},
-		{Title: "1.1.1.1", Address: "1.1.1.1"},
-		{Title: "8.8.8.8", Address: "8.8.8.8"},
-		{Title: "4.2.2.4", Address: "4.2.2.4"},
-		{Title: "example.com", Address: "example.com"},
-		{Title: "Firefox", Address: "detectportal.firefox.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodGet}},
-		{Title: "GStatic", Address: "www.gstatic.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodHead}},
-		{Title: "Cloudflare Trace", Address: "cloudflare.com", Schemes: []Scheme{SchemeHTTP}, Methods: []Method{MethodOptions}, Path: "/cdn-cgi/trace"},
-		{Title: "Microsoft", Address: "microsoft.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodGet}},
-		{Title: "YouTube", Address: "youtube.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodGet}},
-		{Title: "LinkedIn", Address: "linkedin.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodHead}},
-		{Title: "go.dev", Address: "go.dev", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodGet}},
-		{Title: "google.cn", Address: "google.cn", Schemes: []Scheme{SchemeHTTP}, Methods: []Method{MethodOptions}},
+		{Title: "Cloudflare Trace", Address: "cloudflare.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodGet}, Path: "/cdn-cgi/trace"},
+		{Title: "GitHub", Address: "github.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodHead}},
+		{Title: "GStatic", Address: "connectivitycheck.gstatic.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodGet}, Path: "/generate_204"},
+		{Title: "go.dev", Address: "go.dev", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodHead}},
+		{Title: "Microsoft", Address: "msftconnecttest.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodGet}, Path: "/connecttest.txt"},
+		{Title: "Firefox", Address: "detectportal.firefox.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodGet}, Path: "/success.txt"},
+
+		// Demo
+		// {Title: "Cloudflare", Address: "cloudflare.com"},
+		// {Title: "Google", Address: "google.com"},
+		// {Title: "GitHub", Address: "github.com"},
+		// {Title: "1.1.1.1", Address: "1.1.1.1"},
+		// {Title: "8.8.8.8", Address: "8.8.8.8"},
+		// {Title: "4.2.2.4", Address: "4.2.2.4"},
+		// {Title: "example.com", Address: "example.com"},
+		// {Title: "Firefox", Address: "detectportal.firefox.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodGet}},
+		// {Title: "GStatic", Address: "www.gstatic.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodHead}},
+		// {Title: "Cloudflare Trace", Address: "cloudflare.com", Schemes: []Scheme{SchemeHTTP}, Methods: []Method{MethodOptions}, Path: "/cdn-cgi/trace"},
+		// {Title: "Microsoft", Address: "microsoft.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodGet}},
+		// {Title: "YouTube", Address: "youtube.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodGet}},
+		// {Title: "LinkedIn", Address: "linkedin.com", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodHead}},
+		// {Title: "go.dev", Address: "go.dev", Schemes: []Scheme{SchemeHTTPS}, Methods: []Method{MethodGet}},
+		// {Title: "google.cn", Address: "google.cn", Schemes: []Scheme{SchemeHTTP}, Methods: []Method{MethodOptions}},
 	}
 
 	for index := range targets {
